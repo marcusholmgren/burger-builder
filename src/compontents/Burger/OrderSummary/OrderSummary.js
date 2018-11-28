@@ -1,13 +1,14 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import Button from '../../UI/Button/Button';
 
-function orderSummary(props) {
+function OrderSummary(props) {
     const {ingredients, price} = props;
     const ingredientSummary = Object.keys(ingredients)
         .filter((igKey) => ingredients[igKey] > 0)
         .map((igKey) => (
                 <li key={igKey}>
-                    <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {props.ingredients[igKey]}
+                    <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {ingredients[igKey]}
                 </li>
             )
         );
@@ -33,4 +34,11 @@ function orderSummary(props) {
     );
 }
 
-export default orderSummary;
+OrderSummary.propTypes = {
+    ingredients: PropTypes.object.isRequired,
+    price: PropTypes.string.isRequired,
+    purchaseCanceled: PropTypes.func,
+    purchaseContinued: PropTypes.func
+}
+
+export default OrderSummary;
