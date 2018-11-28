@@ -1,15 +1,17 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import Button from '../../UI/Button/Button';
 
-const orderSummary = (props) => {
-    const ingredientSummary = Object.keys(props.ingredients)
-        .filter((igKey) => props.ingredients[igKey] > 0)
-        .map((igKey) => {
-            return (
+function OrderSummary(props) {
+    const {ingredients, price} = props;
+    const ingredientSummary = Object.keys(ingredients)
+        .filter((igKey) => ingredients[igKey] > 0)
+        .map((igKey) => (
                 <li key={igKey}>
-                    <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {props.ingredients[igKey]}
-                </li>)
-        });
+                    <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {ingredients[igKey]}
+                </li>
+            )
+        );
 
     return (
         <>
@@ -18,11 +20,11 @@ const orderSummary = (props) => {
             <ul>
                 {ingredientSummary}
             </ul>
-            <p><strong>Total Price: {props.price}</strong></p>
+            <p><strong>Total Price: {price}</strong></p>
             <p>Continue to Checkout?</p>
             <Button
                 btnType="Danger"
-                clicked={props.purchaseCancelleded}
+                clicked={props.purchaseCanceled}
             >CANCEL</Button>
             <Button
                 btnType="Success"
@@ -30,6 +32,13 @@ const orderSummary = (props) => {
             >CONTINUE</Button>
         </>
     );
-};
+}
 
-export default orderSummary;
+OrderSummary.propTypes = {
+    ingredients: PropTypes.object.isRequired,
+    price: PropTypes.string.isRequired,
+    purchaseCanceled: PropTypes.func,
+    purchaseContinued: PropTypes.func
+}
+
+export default OrderSummary;
